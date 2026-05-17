@@ -1,6 +1,6 @@
 {
   "name": "@seberto/agcp",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "AI CLI that generates and runs shell commands",
   "type": "module",
   "bin": {

@@ -4,7 +4,7 @@ import { Command } from "commander";
 import chalk from "chalk";
 import { confirm } from "@inquirer/prompts";
 import { execSync } from "child_process";
-import generateCommand from "../service/ollama.js";
+import generateCommand, { isSafe } from "../service/ollama.js";
 
 const program = new Command();
 
@@ -19,6 +19,16 @@ program
 
       const command = await generateCommand(prompt);
 
+      if (command === "UNSAFE") {
+        console.log(chalk.red("\n✖ That request is not development related or is unsafe. Only dev commands are supported."));
+        process.exit(1);
+      }
+
+      if (!isSafe(command)) {
+        console.log(chalk.red(`\n✖ Blocked unsafe command: ${chalk.bold(command)}`));
+        process.exit(1);
+      }
+
       console.log(chalk.cyan(`\n💡 Suggested command:\n  ${chalk.bold(command)}\n`));
 
       const shouldRun = await confirm({
@@ -28,7 +38,12 @@ program
 
       if (shouldRun) {
         console.log(chalk.green("\n▶ Running...\n"));
-        execSync(command, { stdio: "inherit" });
+        try {
+          execSync(command, { stdio: "inherit", shell: true });
+        } catch {
+          // command already printed its output, non-zero exit is not our error
+        }
+
       } else {
         console.log(chalk.gray("\nAborted."));
       }
