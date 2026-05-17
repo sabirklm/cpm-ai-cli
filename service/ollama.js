@@ -1,4 +1,5 @@
 import axios from "axios";
+import getModels from "./models.js";
 
 async function generateCommand(userPrompt) {
   const prompt = `
@@ -14,14 +15,20 @@ User:
 ${userPrompt}
 `;
 
-  const response = await axios.post(
-    "http://localhost:11434/api/generate",
-    {
-      model: "gemma3:4b",
-      prompt,
-      stream: false
-    }
-  );
+  const models = await getModels();
+
+  // Use the first available model
+  const model = models[0];
+
+  if (!model) {
+    throw new Error("No Ollama models found. Run 'ollama pull <model>' to install one.");
+  }
+
+  const response = await axios.post("http://localhost:11434/api/generate", {
+    model,
+    prompt,
+    stream: false,
+  });
 
   return response.data.response.trim();
 }
