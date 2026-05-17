@@ -1,6 +1,6 @@
 {
   "name": "@seberto/agcp",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "AI CLI that generates and runs shell commands",
   "type": "module",
   "bin": {
@@ -8,7 +8,8 @@
   },
   "files": [
     "bin",
-    "service"
+    "service",
+    "README.md"
   ],
   "scripts": {
     "start": "node ./bin/agcp.js"
