@@ -9,8 +9,8 @@ import generateCommand from "../service/ollama.js";
 const program = new Command();
 
 program
-  .name("cpm")
-  .description("AI CLI that generates and runs shell commands via local Ollama")
+  .name("agcp")
+  .description("AI CLI that generates and runs shell commands")
   .version("1.0.0")
   .argument("<prompt>", "Describe what you want to do")
   .action(async (prompt) => {

@@ -1,17 +1,17 @@
 {
-  "name": "cpm",
+  "name": "@seberto/agcp",
   "version": "1.0.0",
-  "description": "AI CLI that generates and runs shell commands via local Ollama",
+  "description": "AI CLI that generates and runs shell commands",
   "type": "module",
   "bin": {
-    "cpm": "./bin/cpm.js"
+    "agcp": "bin/agcp.js"
   },
   "files": [
     "bin",
     "service"
   ],
   "scripts": {
-    "start": "node ./bin/cpm.js"
+    "start": "node ./bin/agcp.js"
   },
   "engines": {
     "node": ">=18.0.0"
@@ -23,7 +23,7 @@
     "shell",
     "command"
   ],
-  "author": "",
+  "author": "seberto",
   "license": "ISC",
   "dependencies": {
     "@inquirer/prompts": "^7.5.2",

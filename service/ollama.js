@@ -1,28 +1,12 @@
 import axios from "axios";
-import getModels from "./models.js";
 
 async function generateCommand(userPrompt) {
-  const prompt = `
-Convert the text into a shell command.
+  const { data } = await axios.get("http://localhost:11434/api/tags");
+  const model = data.models?.[0]?.name;
 
-Rules:
-- return only command
-- no markdown
-- no explanation
-- output one line only
+  if (!model) throw new Error("No Ollama models found. Run 'ollama pull <model>' first.");
 
-User:
-${userPrompt}
-`;
-
-  const models = await getModels();
-
-  // Use the first available model
-  const model = models[0];
-
-  if (!model) {
-    throw new Error("No Ollama models found. Run 'ollama pull <model>' to install one.");
-  }
+  const prompt = `Convert the following text into a shell command. Return only the command, no explanation, no markdown.\n\n${userPrompt}`;
 
   const response = await axios.post("http://localhost:11434/api/generate", {
     model,
